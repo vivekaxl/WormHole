@@ -2,11 +2,7 @@ import os
 import time
 import subprocess
 import sys
-
-
-def download_file(f, url):
-    import urllib2
-    f.write(urllib2.urlopen(url).read())
+import urllib2
 
 url1 = "http://10.239.227.6:8010/FileSpray/DownloadFile?Name=1000&NetAddress=10.239.227.6&Path=%2Fvar%2Flib%2FHPCCSystems%2Fmydropzone&OS=2"
 url2 = "http://10.239.227.6:8010/FileSpray/DownloadFile?Name=10000&NetAddress=10.239.227.6&Path=%2Fvar%2Flib%2FHPCCSystems%2Fmydropzone&OS=2"
@@ -24,15 +20,15 @@ for url in urls:
     for _ in xrange(repeat):
         print ". ",
         start = time.time()
-        f = open('tmp', 'w')
-        download_file(f, url)
-        f.close()
+        import wget
+        file_name = wget.download(url)
         end = time.time()
         temp.append(end-start)
-        os.system('rm -f tmp')
+        os.system('rm -f ' + file_name)
         sys.stdout.flush()
     all.append(temp)
     print
+    print temp
 
 for al in all:
     print al
